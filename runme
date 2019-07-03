@@ -1,0 +1,7 @@
+export LIBRARY_PATH=/opt/vc/lib
+export PKG_CONFIG_PATH=/opt/vc/lib/pkgconfig/
+export CPATH=/opt/vc/include
+#export LDFLAGS=-L/opt/vc/lib
+./update
+mk-build-deps -s sudo -i
+dpkg-buildpackage -uc -us -b -j4
