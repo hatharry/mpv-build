@@ -63,11 +63,9 @@ ffmpeg_build: ffmpeg_config
 override_dh_auto_configure: ffmpeg_build libass_build
 	scripts/mpv-config --prefix=/usr --confdir=/etc/mpv \
 		--enable-openal \
-		--enable-dvdread \
 		--enable-dvdnav \
 		--enable-cdda \
-		--enable-libsmbclient \
-		--enable-zsh-comp
+		--enable-libsmbclient
 
 override_dh_auto_build:
 	scripts/mpv-build $(WAFLAGS)

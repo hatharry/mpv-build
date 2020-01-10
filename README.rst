@@ -5,23 +5,19 @@ This is a collection of scripts to make downloading and building mpv, ffmpeg
 and libass easier. ffmpeg and libass get special treatment, because they are
 essential, and distribution packages are often too old or too broken.
 
-If you are running Mac OSX and using homebrew we provide homebrew-mpv_, an up
-to date formula that compiles mpv with sensible dependencies and defaults for
-OSX.
-
 Generic Instructions
 ====================
 
 Make sure git is installed. Also check that the dependencies listed in
 the next section are installed.
 
-Checkout the build repo:
+Checkout the build repo::
 
     git clone https://github.com/mpv-player/mpv-build.git
 
     cd mpv-build
 
-To get the ffmpeg, libass and mpv sources and build them, run the command:
+To get the ffmpeg, libass and mpv sources and build them, run the command::
 
     ./rebuild -j4
 
@@ -33,7 +29,7 @@ incremental builds. You can do incremental builds by explicitly calling
 ``./build``. This can be faster on minor updates, but breaks sometimes, e.g.
 the FFmpeg build system can sometimes be a bit glitchy.
 
-Install mpv with:
+Install mpv with::
 
     sudo ./install
 
@@ -74,7 +70,7 @@ enable them explicitly at configuration time. (And it will simply fail
 if the dependencies are not available.)
 
 You can put additional ffmpeg configure flags into ffmpeg_options. For
-example, to enable some dependencies needed for encoding:
+example, to enable some dependencies needed for encoding::
 
     echo --enable-libx264    >> ffmpeg_options
 
@@ -95,22 +91,22 @@ advanced usage and you may experience problems if you have weird third party
 repositories enabled or use exotic Debian derivatives. This procedure is
 regularly tested on Debian Sid.
 
-Install some basic packaging tools with the command:
+Install some basic packaging tools with the command::
 
     apt-get install devscripts equivs
 
 In the mpv-build root directory, create and install a dummy build dependency
-package:
+package::
 
     mk-build-deps -s sudo -i
 
-You can now build the mpv Debian package with the following command:
+You can now build the mpv Debian package with the following command::
 
     dpkg-buildpackage -uc -us -b -j4
 
 Adjust the "4" to your number of available processors as appropriate. On
 completion, the file mpv_<version>_<architecture>.deb will be created in the
-parent directory. Install it with
+parent directory. Install it with::
 
     sudo dpkg -i ../mpv_<version>_<architecture>.deb
 
@@ -143,15 +139,15 @@ expected to maintain them and to backport bug fixes (which they usually fail
 to do).
 
 The following command can be used to delete all local changes, and to checkout
-the latest release version of mpv:
+the latest release version of mpv::
 
     ./use-mpv-release
 
-And run ``./rebuild`` or similar. Use this to switch back to git master:
+And run ``./rebuild`` or similar. Use this to switch back to git master::
 
     ./use-mpv-master
 
-Or this to switch to a custom tag/branch/commit FOO:
+Or this to switch to a custom tag/branch/commit FOO::
 
     ./use-mpv-custom FOO
 
@@ -174,7 +170,7 @@ But normally, you shouldn't need this.
 Building libmpv
 ---------------
 
-You can enable building libmpv by enabling the configure option:
+You can enable building libmpv by enabling the configure option::
 
     echo --enable-libmpv-shared > mpv_options
 
@@ -192,4 +188,3 @@ Report bugs to the `issues tracker`_ provided by GitHub to send us bug
 reports or feature requests.
 
 .. _issues tracker: https://github.com/mpv-player/mpv/issues
-.. _homebrew-mpv: https://github.com/mpv-player/homebrew-mpv
