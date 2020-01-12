@@ -7,8 +7,13 @@
 *.deb
 /debian/changelog
 /debian/files
+/debian/mpv
+/debian/.debhelper
 /debian/mpv.debhelper.log
 /debian/mpv.postinst.debhelper
 /debian/mpv.postrm.debhelper
 /debian/mpv.substvars
 /config/
+ffmpeg_options
+mpv_options
+mpv-*

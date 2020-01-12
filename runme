@@ -1,7 +1,30 @@
-export LIBRARY_PATH=/opt/vc/lib
-export PKG_CONFIG_PATH=/opt/vc/lib/pkgconfig/
-export CPATH=/opt/vc/include
-#export LDFLAGS=-L/opt/vc/lib
+arch=`uname -m`
+export LD_RUN_PATH='$ORIGIN'
+
+if [ ${arch} == 'x86_64' ]; then
+    echo --enable-libzvbi > ffmpeg_options
+    echo --disable-debug-build > mpv_options
+fi
+
+if [ ${arch} == 'armv7l' ]; then
+    export LIBRARY_PATH=/opt/vc/lib
+    export PKG_CONFIG_PATH=/opt/vc/lib/pkgconfig/
+    export CPATH=/opt/vc/include
+    #export LDFLAGS=-L/opt/vc/lib
+    echo --enable-libzvbi > ffmpeg_options
+    echo --enable-mmal >> ffmpeg_options
+    echo --disable-debug-build > mpv_options
+    echo --enable-rpi >> mpv_options
+fi
+
 ./update
 mk-build-deps -s sudo -i
-dpkg-buildpackage -uc -us -b -j4
+./rebuild
+rm -r mpv-${arch}-linux
+mkdir mpv-${arch}-linux
+pushd mpv-${arch}-linux
+cp -L ../mpv/build/mpv .
+cp -L `LD_TRACE_LOADED_OBJECTS=1 ../mpv/build/mpv | awk '{split($0, a," "); print a[3]}'` .
+popd
+rm mpv-${arch}-linux.zip
+zip -r mpv-${arch}-linux.zip mpv-${arch}-linux
