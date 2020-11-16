@@ -39,6 +39,7 @@ libass_build: libass_config
 ffmpeg_config: libass_build
 	scripts/ffmpeg-config \
 		--enable-gnutls \
+		--enable-libdav1d \
 		--enable-libgme \
 		--enable-libgsm \
 		--enable-libmodplug \
@@ -50,7 +51,6 @@ ffmpeg_config: libass_build
 		--enable-libssh \
 		--enable-libvorbis \
 		--enable-libvpx \
-		--enable-libwavpack \
 		--enable-ladspa \
 		--enable-libbs2b \
 		--enable-gpl --enable-libxvid --enable-libx264 \
@@ -64,8 +64,7 @@ override_dh_auto_configure: ffmpeg_build libass_build
 	scripts/mpv-config --prefix=/usr --confdir=/etc/mpv \
 		--enable-openal \
 		--enable-dvdnav \
-		--enable-cdda \
-		--enable-libsmbclient
+		--enable-cdda
 
 override_dh_auto_build:
 	scripts/mpv-build $(WAFLAGS)
