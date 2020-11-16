@@ -1,0 +1,4 @@
+docker build -t mpv .
+docker run -t --name mb mpv:latest bash -c "./rebuild -j4"
+docker cp mb:/mpv-build/mpv/build/libmpv.so mpv-build
+docker cp mb:/mpv-build/mpv/build/mpv mpv-build
