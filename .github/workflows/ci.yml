@@ -39,4 +39,4 @@ jobs:
           
       - name: build
         run: |
-          ./rebuild -j${nproc}
+          ./rebuild -j4
