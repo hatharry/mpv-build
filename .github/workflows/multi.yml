@@ -32,4 +32,4 @@ jobs:
       - name: Run a multi-line script
         run: |
           docker --version
-          ./runme-docker.sh
+          ./runme-docker
