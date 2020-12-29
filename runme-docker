@@ -1,4 +1,66 @@
-docker build -t mpv .
-docker run -t --name mb mpv:latest bash -c "./rebuild -j4"
-docker cp mb:/mpv-build/mpv/build/libmpv.so mpv-build
-docker cp mb:/mpv-build/mpv/build/mpv mpv-build
+apt install -y qemu binfmt-support qemu-user-static
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+docker build -t amd64/mpv - << EOF
+FROM amd64/ubuntu
+ENV TZ=Pacific/Auckland
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y git make autoconf automake gcc libtool pkg-config python python3 yasm nasm libfreetype6-dev libfribidi-dev libfontconfig-dev libzvbi-dev libasound2-dev libgnutls28-dev libpulse-dev libva-dev libvdpau-dev libx11-dev libxext-dev libxinerama-dev libxrandr-dev libxss-dev libharfbuzz-dev
+RUN git clone https://github.com/mpv-player/mpv-build.git
+WORKDIR /mpv-build
+RUN echo --enable-libzvbi > ffmpeg_options
+RUN echo --enable-libmpv-shared > mpv_options
+RUN echo --disable-build-date >> mpv_options
+RUN echo --disable-debug-build >> mpv_options
+RUN ./use-ffmpeg-release
+RUN ./use-mpv-master
+EOF
+
+docker run -t --name mpv-amd64 amd64/mpv:latest bash -c "./rebuild -j4"
+mkdir mpv-build-amd64
+docker cp mpv-amd64:/mpv-build/mpv/build/libmpv.so mpv-build-amd64
+docker cp mpv-amd64:/mpv-build/mpv/build/mpv mpv-build-amd64
+docker rm mpv-amd64
+
+docker build -t arm32v7/mpv - << EOF
+FROM arm32v7/ubuntu
+ENV TZ=Pacific/Auckland
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y git make autoconf automake gcc libtool pkg-config python python3 yasm nasm libfreetype6-dev libfribidi-dev libfontconfig-dev libzvbi-dev libasound2-dev libgnutls28-dev libpulse-dev libva-dev libvdpau-dev libx11-dev libxext-dev libxinerama-dev libxrandr-dev libxss-dev libharfbuzz-dev
+RUN update-ca-certificates --fresh
+RUN git clone https://github.com/mpv-player/mpv-build.git
+WORKDIR /mpv-build
+RUN echo --enable-libzvbi > ffmpeg_options
+RUN echo --enable-libmpv-shared > mpv_options
+RUN echo --disable-build-date >> mpv_options
+RUN echo --disable-debug-build >> mpv_options
+RUN ./use-ffmpeg-release
+RUN ./use-mpv-master
+EOF
+
+docker run -t --name mpv-arm32v7 arm32v7/mpv:latest bash -c "./rebuild -j4"
+mkdir mpv-build-arm32v7
+docker cp mpv-arm32v7:/mpv-build/mpv/build/libmpv.so mpv-build-arm32v7
+docker cp mpv-arm32v7:/mpv-build/mpv/build/mpv mpv-build-arm32v7
+docker rm mpv-arm32v7
+
+docker build -t arm64v8/mpv - << EOF
+FROM arm64v8/ubuntu
+ENV TZ=Pacific/Auckland
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y git make autoconf automake gcc libtool pkg-config python python3 yasm nasm libfreetype6-dev libfribidi-dev libfontconfig-dev libzvbi-dev libasound2-dev libgnutls28-dev libpulse-dev libva-dev libvdpau-dev libx11-dev libxext-dev libxinerama-dev libxrandr-dev libxss-dev libharfbuzz-dev
+RUN git clone https://github.com/mpv-player/mpv-build.git
+WORKDIR /mpv-build
+RUN echo --enable-libzvbi > ffmpeg_options
+RUN echo --enable-libmpv-shared > mpv_options
+RUN echo --disable-build-date >> mpv_options
+RUN echo --disable-debug-build >> mpv_options
+RUN ./use-ffmpeg-release
+RUN ./use-mpv-master
+EOF
+
+docker run -t --name mpv-arm64v8 arm64v8/mpv:latest bash -c "./rebuild -j4"
+mkdir mpv-build-arm64v8
+docker cp mpv-arm64v8:/mpv-build/mpv/build/libmpv.so mpv-build-arm64v8
+docker cp mpv-arm64v8:/mpv-build/mpv/build/mpv mpv-build-arm64v8
+docker rm mpv-arm64v8
