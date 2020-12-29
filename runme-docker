@@ -19,8 +19,8 @@ EOF
 
 docker run -t --name mpv-$1 $1/mpv:latest bash -c "./rebuild -j4"
 mkdir mpv-build-$1
-docker cp mpv-$1:/mpv-build/mpv/build/libmpv.so mpv-build-$1
-docker cp mpv-$1:/mpv-build/mpv/build/mpv mpv-build-$1
+docker cp mpv-$1:/mpv-build/mpv/build/libmpv.so mpv-build-$1/libmpv.so.1
+docker cp mpv-$1:/mpv-build/mpv/build/mpv mpv-build-$1/mpv
 docker rm mpv-$1
 
 # docker build -t arm32v7/mpv - << EOF
