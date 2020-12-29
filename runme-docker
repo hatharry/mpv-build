@@ -4,7 +4,7 @@ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 docker build -t $1/mpv - << EOF
 FROM $1/ubuntu
 ENV TZ=Pacific/Auckland
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/\$TZ /etc/localtime && echo \$TZ > /etc/timezone
 RUN apt-get update && apt-get install -y git make autoconf automake gcc libtool pkg-config python python3 yasm nasm libfreetype6-dev libfribidi-dev libfontconfig-dev libzvbi-dev libasound2-dev libgnutls28-dev libpulse-dev libva-dev libvdpau-dev libx11-dev libxext-dev libxinerama-dev libxrandr-dev libxss-dev libharfbuzz-dev
 RUN update-ca-certificates --fresh
 RUN git clone https://github.com/mpv-player/mpv-build.git
