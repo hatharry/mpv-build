@@ -39,5 +39,5 @@ jobs:
         with:
           name: amd64
           path: |
-            ./*/libmpv.so
+            ./*/libmpv.so.1
             ./*/mpv
