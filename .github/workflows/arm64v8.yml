@@ -39,5 +39,5 @@ jobs:
         with:
           name: arm64v8
           path: |
-            ./*/libmpv.so
+            ./*/libmpv.so.1
             ./*/mpv
