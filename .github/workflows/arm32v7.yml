@@ -39,5 +39,5 @@ jobs:
         with:
           name: arm32v7
           path: |
-            ./*/libmpv.so
+            ./*/libmpv.so.1
             ./*/mpv
